@@ -6,7 +6,6 @@ const ws = require("ws");
 const system = require("os");
 const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
-const constraints = "./client/constraints.json";
 const {
   TokenError,
   IntentsError,
@@ -19,30 +18,21 @@ const {
 } = require("../util/errors");
 let connected = false;
 
-function open() {
-  return JSON.parse(fs.readFileSync(constraints).toString());
-}
-function close(object) {
-  fs.writeFileSync(constraints, JSON.stringify(object));
-}
-
 class Client extends EventEmitter {
   constructor(token = null, intents = 513) {
     super();
     if (token) process.env.TOKEN = token;
     this.intents = intents;
   }
-  login(token = null) {
+  start(token = null) {
     connected = false;
     if (token) {
-      let p = open();
-      p.token = token;
-      close(p);
+      process.env.TOKEN = token;
     }
     const identify = {
       op: 2,
       d: {
-        token: open().token,
+        token: process.env.TOKEN = token,
         intents: this.intents,
         properties: {
           $os: system.type(),
