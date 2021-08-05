@@ -6,6 +6,7 @@ const ws = require("ws");
 const system = require("os");
 const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
+const presence = require("./actions/presenceUpdate")
 const {
   TokenError,
   IntentsError,
@@ -16,6 +17,7 @@ const {
   ResumeError,
   ShardError,
 } = require("../util/errors");
+const { Message } = require("../structures/Message")
 let connected = false;
 
 class Client extends EventEmitter {
@@ -32,7 +34,7 @@ class Client extends EventEmitter {
     const identify = {
       op: 2,
       d: {
-        token: process.env.TOKEN = token,
+        token: (process.env.TOKEN = token),
         intents: this.intents,
         properties: {
           $os: system.type(),
@@ -76,16 +78,16 @@ class Client extends EventEmitter {
         case 0:
           switch (message.t) {
             case "READY":
-              this.emit("ready");
+              this.emit("READY", data);
               connected = true;
 
               break;
             case "GUILD_CREATE":
-              this.emit("guildCreate");
+              this.emit("GUILD_CREATE", data);
 
               break;
             case "MESSAGE_CREATE":
-              this.emit("message", data.content);
+              this.emit("MESSAGE_CREATE", new Message(data));
 
               break;
           }
@@ -173,14 +175,18 @@ class Client extends EventEmitter {
       }
     });
     recieve.on("connection", function (connection) {
+      console.log("connected")
       connection.on("message", function (message) {
         if (connected === true) {
-          socket.send(JSON.stringify(message));
+          socket.send(message.toString());
         } else {
           throw new PayloadError("You are not logged in.");
         }
       });
     });
+  }
+  setStatus(name, type, activities) {
+    presence.update(name, type, activities)
   }
 }
 
