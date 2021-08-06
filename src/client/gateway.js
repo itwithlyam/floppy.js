@@ -175,7 +175,6 @@ class Client extends EventEmitter {
       }
     });
     recieve.on("connection", function (connection) {
-      console.log("connected")
       connection.on("message", function (message) {
         if (connected === true) {
           socket.send(message.toString());

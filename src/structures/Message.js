@@ -39,7 +39,7 @@ class Message {
             }
             this.attatchments = data.attatchments
             this.guild_id = data.guild_id
-            this.channel = data.channel
+            this.channel = null
         }
     }
 }
