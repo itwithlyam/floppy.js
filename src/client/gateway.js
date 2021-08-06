@@ -6,6 +6,7 @@ const ws = require("ws");
 const system = require("os");
 const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
+const fetch = require("node-fetch")
 const presence = require("./actions/presenceUpdate")
 const {
   TokenError,
@@ -20,13 +21,18 @@ const {
 const { Message } = require("../structures/Message")
 let connected = false;
 
+const recieve = new ws.Server({ port: 8080 });
+
 class Client extends EventEmitter {
   constructor(token = null, intents = 513) {
     super();
     if (token) process.env.TOKEN = token;
     this.intents = intents;
   }
-  start(token = null) {
+  async getGuildById(guildId) {
+
+  }
+  async start(token = null) {
     connected = false;
     if (token) {
       process.env.TOKEN = token;
@@ -48,7 +54,6 @@ class Client extends EventEmitter {
       d: null,
     };
     const socket = new ws(GATEWAY);
-    const recieve = new ws.Server({ port: 8080 });
     socket.on("message", (message) => {
       message = JSON.parse(message);
       const data = message.d;
@@ -78,17 +83,23 @@ class Client extends EventEmitter {
         case 0:
           switch (message.t) {
             case "READY":
+              data.guilds = undefined
               this.emit("READY", data);
               connected = true;
-
+              this.v = data.v
+              this.user = data.user
+              this.session_id = data.session_id
+              this.shard = data.shard
+              this.guilds = []
+              this.application = data.application
+              this.user.name = `${this.user.username}#${this.user.discriminator}`
               break;
             case "GUILD_CREATE":
               this.emit("GUILD_CREATE", data);
-
+              this.guilds.push(data)
               break;
             case "MESSAGE_CREATE":
               this.emit("MESSAGE_CREATE", new Message(data));
-
               break;
           }
           break;

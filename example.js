@@ -11,7 +11,9 @@ bot.on("GUILD_CREATE", guild => {
     console.log("Logged onto guild:", guild.name)
 })
 bot.on("MESSAGE_CREATE", message => {
+    if (message.author.bot) return
     console.log("New message:", message.content)
+    message.reply("testing")
 })
 
 bot.start(token)

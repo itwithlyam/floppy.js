@@ -1,3 +1,5 @@
+'use strict';
+
 const ws = require("ws")
 let socket = new ws("ws://localhost:8080")
 function update(type, name, status) {
