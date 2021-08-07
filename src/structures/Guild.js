@@ -70,6 +70,24 @@ class Guild {
     async getBan(userId) {}
     async unban(userId, reason) {}
     async getRoles() {}
-    async createRole(name="new role", permissions=0, color=0, hoist=false, mentionable=false, reason) {}
-    async modifyRolePositions()
+    async createRole(data, reason) {}
+    async modifyRolePositions(roleId, position, reason) {}
+    async modifyRole(roleId, data, reason) {}
+    async deleteRole(roleId, reason) {}
+    async pruneList(days, roles) {}
+    async prune(data, reason) {}
+    async voiceRegions() {}
+    async getInvites() {}
+    async getIntegrations() {}
+    async deleteIntegration(integrationId, reason) {}
+    async getWidgetSettings() {}
+    async modifyWidget(data, reason) {}
+    async getWidget() {}
+    async getVanityURL() {} 
+    async getWidgetImage(style="shield") {}
+    async getWelcome() {}
+    async modifyWelcome(data, reason) {}
+    async modifyCurrentVoiceState(data) {}
+    async modifyVoiceState(userId, data) {}
 }
+module.exports = {Guild}
