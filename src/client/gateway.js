@@ -9,6 +9,7 @@ const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
 const fetch = require("node-fetch")
 const presence = require("./actions/presenceUpdate")
+const {Guild} = require("../structures/Guild")
 const {
   TokenError,
   IntentsError,
@@ -97,7 +98,7 @@ class Client extends EventEmitter {
               break;
             case "GUILD_CREATE":
               this.emit("GUILD_CREATE", new Guild(data));
-              this.guilds.push(data)
+              this.guilds.push(new Guild(data))
               break;
             case "MESSAGE_CREATE":
               this.emit("MESSAGE_CREATE", new Message(data));
