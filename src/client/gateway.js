@@ -9,7 +9,6 @@ const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
 const fetch = require("node-fetch")
 const presence = require("./actions/presenceUpdate")
-const {Guild} = require("../structures/Guild")
 const {
   TokenError,
   IntentsError,
