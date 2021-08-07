@@ -26,6 +26,8 @@ class Channel {
         this.default_auto_archive_duration = data.default_auto_archive_duration
         this.permissions = data.permissions
     }
-
+    async sync() {}
+    async modify(data, reason) {}
+    
 }
 module.exports = {Channel}
