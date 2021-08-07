@@ -4,6 +4,7 @@ const { EventEmitter } = require("events");
 const fs = require("fs");
 const ws = require("ws");
 const system = require("os");
+const {Guild} = require("../structures/Guild")
 const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
 const fetch = require("node-fetch")
@@ -95,7 +96,7 @@ class Client extends EventEmitter {
               this.user.name = `${this.user.username}#${this.user.discriminator}`
               break;
             case "GUILD_CREATE":
-              this.emit("GUILD_CREATE", data);
+              this.emit("GUILD_CREATE", new Guild(data));
               this.guilds.push(data)
               break;
             case "MESSAGE_CREATE":

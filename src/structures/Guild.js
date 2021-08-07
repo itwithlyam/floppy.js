@@ -1,3 +1,4 @@
+const {Channel} = require("./Channel")
 
 class Guild {
     constructor(data) {
@@ -32,7 +33,10 @@ class Guild {
         this.member_count = data.member_count
         this.voice_states = data.voice_states
         this.members = data.members
-        this.channels = data.channels
+        this.channels = []
+        data.channels.forEach(element => {
+            this.channels.push(new Channel(element))
+        });
         this.threads = data.threads
         this.presences = data.presences
         this.max_presences = data.max_presences
@@ -51,6 +55,7 @@ class Guild {
         this.nsfw_level = data.nsfw_level
         this.stage_instances = data.stage_instances
         this.stickers = data.stickers
+        console.log(this)
     }
     async modify(data, reason) {}
     async delete() {}

@@ -26,4 +26,6 @@ class Channel {
         this.default_auto_archive_duration = data.default_auto_archive_duration
         this.permissions = data.permissions
     }
+
 }
+module.exports = {Channel}
