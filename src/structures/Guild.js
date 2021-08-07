@@ -52,4 +52,24 @@ class Guild {
         this.stage_instances = data.stage_instances
         this.stickers = data.stickers
     }
+    async modify(data, reason) {}
+    async delete() {}
+    async createChannel(data, reason) {}
+    async modifyChannelPosition(data, reason) {}
+    async listThreads() {}
+    async getMember(userId) {}
+    async listMembers(limit=1, after=0) {}
+    async searchMembers(query, limit=1) {}
+    async modifyMember(data, userId, reason) {}
+    async modifyNick(nick, reason) {}
+    async assignRole(userId, roleId, reason) {}
+    async removeRole(userId, roleId, reason) {}
+    async kick(userId, reason) {}
+    async ban(userId, reason, deleteMessageDays=0) {}
+    async getBans() {}
+    async getBan(userId) {}
+    async unban(userId, reason) {}
+    async getRoles() {}
+    async createRole(name="new role", permissions=0, color=0, hoist=false, mentionable=false, reason) {}
+    async modifyRolePositions()
 }
