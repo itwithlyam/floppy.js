@@ -28,6 +28,39 @@ class Channel {
     }
     async sync() {}
     async modify(data, reason) {}
-    
+    async close(reason) {}
+    async getMessages(data) {}
+    async getMessage(messageId) {}
+    async createMessage(data) {}
+    async publishMessage(messageId) {}
+    async createReaction(messageId, emoji) {}
+    async deleteOwnReaction(messageId, emoji) {}
+    async deleteReaction(messageId, emoji, userId) {}
+    async getReactions(messageId, data) {}
+    async deleteAllReactions(messageId) {}
+    async deleteEmojiReactions(messageId, emoji) {}
+    async modifyMessage(messageId, data) {}
+    async deleteMessage(messageId, reason) {}
+    async deleteMessagesBulk(data, reason) {}
+    async modifyPermissions(overwriteId, data, reason) {}
+    async getInvites() {}
+    async createInvite(data={}, reason) {}
+    async deletePermission(overwriteId, reason) {}
+    async createFollow(data) {}
+    async createTyping() {}
+    async getPinngedMessages() {}
+    async createPin(messageId, reason) {}
+    async deletePin(messageId, reason) {}
+    async deleteRecipient(userId) {}
+    async createThreadWithMessage(messageId, data, reason) {}
+    async createThread(data, reason) {}
+    async joinThread() {}
+    async createThreadMember(userId) {}
+    async leaveThread() {}
+    async deleteThreadMember(userId) {}
+    async getThreadMembers() {}
+    async getArchivedThreads(data) {}
+    async getPrivateArchivedThreads(data) {}
+    async getJoinedPrivateArchivedThreads(data) {}
 }
 module.exports = {Channel}
