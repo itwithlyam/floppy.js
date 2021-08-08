@@ -9,6 +9,9 @@ bot.on("READY", () => {
 })
 bot.on("GUILD_CREATE", guild => {
     console.log("Logged onto guild:", guild.name)
+    if (guild.name === "hi there") {
+        guild.modify({explicit_content_filter: 2}, "because")
+    }
 })
 bot.on("MESSAGE_CREATE", message => {
     if (message.author.bot) return

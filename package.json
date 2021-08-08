@@ -1,6 +1,6 @@
 {
   "name": "floppy.js",
-  "version": "1.0.0",
+  "version": "0.0.0-2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "fetch": "^1.1.0",
+    "floppy.js": "^0.0.0-1",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
-    "trello": "^0.3.0",
     "ws": "^8.0.0"
   }
 }

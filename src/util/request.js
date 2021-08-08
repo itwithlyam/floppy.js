@@ -12,7 +12,8 @@ class Request {
         this.body = JSON.stringify(body)
         this.headers = headers
     }
-    async request(method) {
+    async request(method, reason=null) {
+        if (reason) this.headers["X-Audit-Log-Reason"] = reason
         let request = await fetch(`https://discord.com/api/v9/${this.url}`, {
             method: method,
             body: this.body,

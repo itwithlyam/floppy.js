@@ -1,4 +1,5 @@
 const {Channel} = require("./Channel")
+const {Request} = require("../util/request")
 
 class Guild {
     constructor(data) {
@@ -57,7 +58,12 @@ class Guild {
         this.stickers = data.stickers
         console.log(this)
     }
-    async modify(data, reason) {}
+    async modify(data, reason) {
+        console.log("req started")
+        const req = new Request("/guilds/" + this.id, data)
+        let res = await req.request("PATCH", reason)
+        console.log(res)
+    }
     async delete() {}
     async createChannel(data, reason) {}
     async modifyChannelPosition(data, reason) {}
