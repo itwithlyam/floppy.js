@@ -1,4 +1,5 @@
 const {Channel} = require("./Channel")
+const {Request} = require("../util/request")
 
 class Guild {
     constructor(data) {
@@ -55,11 +56,26 @@ class Guild {
         this.nsfw_level = data.nsfw_level
         this.stage_instances = data.stage_instances
         this.stickers = data.stickers
-        console.log(this)
     }
-    async modify(data, reason) {}
-    async delete() {}
-    async createChannel(data, reason) {}
+    async modify(data, reason) {
+        let gid = this.id
+        return new Promise((res, rej) => {
+            const req = new Request("/guilds/" + gid, data)
+            let result = req.request("PATCH", reason)
+            res(result.data)
+        })
+    }
+    async getChannels() {
+        let gid = this.id
+        return new Promise(resolve => {
+            const req = new Request(`/guilds/${gid}/channels`)
+            let resp = req.get()
+            resolve(resp)
+        })
+    }
+    async createChannel(data, reason) {
+
+    }
     async modifyChannelPosition(data, reason) {}
     async listThreads() {}
     async getMember(userId) {}
