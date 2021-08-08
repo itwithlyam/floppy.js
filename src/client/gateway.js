@@ -30,9 +30,6 @@ class Client extends EventEmitter {
     if (token) process.env.TOKEN = token;
     this.intents = intents;
   }
-  async getGuildById(guildId) {
-
-  }
   async start(token = null) {
     connected = false;
     if (token) {
@@ -196,8 +193,15 @@ class Client extends EventEmitter {
       });
     });
   }
-  setStatus(name, type, activities) {
-    presence.update(name, type, activities)
+  async createStatus(name, type, activities) {
+    return new Promise((resolve, reject) => {
+      try {
+      presence.update(name, type, activities)
+      } catch(e) {
+        reject(e)
+      }
+      resolve()
+    })
   }
 }
 

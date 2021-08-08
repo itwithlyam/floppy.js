@@ -2,9 +2,9 @@ const Floppy = require("./index.js")
 const { token } = require("./token.json")
 
 const bot = new Floppy.Bot()
-bot.on("READY", () => {
+bot.on("READY", async () => {
     console.log("Ready!")
-    bot.setStatus(0, "Lyam make FloppyJS", "online")
+    await bot.createStatus(0, "Lyam make FloppyJS", "online")
     console.log("Status set!")
 })
 bot.on("GUILD_CREATE", async guild => {
