@@ -56,16 +56,26 @@ class Guild {
         this.nsfw_level = data.nsfw_level
         this.stage_instances = data.stage_instances
         this.stickers = data.stickers
-        console.log(this)
     }
     async modify(data, reason) {
-        console.log("req started")
-        const req = new Request("/guilds/" + this.id, data)
-        let res = await req.request("PATCH", reason)
-        console.log(res)
+        let gid = this.id
+        return new Promise((res, rej) => {
+            const req = new Request("/guilds/" + gid, data)
+            let result = req.request("PATCH", reason)
+            res(result.data)
+        })
     }
-    async delete() {}
-    async createChannel(data, reason) {}
+    async getChannels() {
+        let gid = this.id
+        return new Promise(resolve => {
+            const req = new Request(`/guilds/${gid}/channels`)
+            let resp = req.get()
+            resolve(resp)
+        })
+    }
+    async createChannel(data, reason) {
+
+    }
     async modifyChannelPosition(data, reason) {}
     async listThreads() {}
     async getMember(userId) {}

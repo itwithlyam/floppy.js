@@ -12,7 +12,7 @@ class Request {
         this.body = JSON.stringify(body)
         this.headers = headers
     }
-    async request(method, reason=null) {
+    async test_request(method, reason=null) {
         if (reason) this.headers["X-Audit-Log-Reason"] = reason
         let request = await fetch(`https://discord.com/api/v9/${this.url}`, {
             method: method,
@@ -26,7 +26,7 @@ class Request {
         }
         return response
     }
-    async get() {
+    async test_get() {
         let request = await fetch(`https://discord.com/api/v9${this.url}`, {
             method: "GET",
             headers: this.headers
@@ -37,6 +37,22 @@ class Request {
             data: await request.json()
         }
         return response
+    }
+    async request(method, reason=null) {
+        if (reason) this.headers["X-Audit-Log-Reason"] = reason
+        let request = await fetch(`https://discord.com/api/v9/${this.url}`, {
+            method: method,
+            body: this.body,
+            headers: this.headers
+        })
+        return await request.json()
+    }
+    async get() {
+        let request = await fetch(`https://discord.com/api/v9${this.url}`, {
+            method: "GET",
+            headers: this.headers
+        })
+        return await request.json()
     }
 }
 

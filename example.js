@@ -7,10 +7,10 @@ bot.on("READY", () => {
     bot.setStatus(0, "Lyam make FloppyJS", "online")
     console.log("Status set!")
 })
-bot.on("GUILD_CREATE", guild => {
+bot.on("GUILD_CREATE", async guild => {
     console.log("Logged onto guild:", guild.name)
-    if (guild.name === "hi there") {
-        guild.modify({explicit_content_filter: 2}, "because")
+    if (guild.name === "bot") {
+        console.log(await guild.getChannels())
     }
 })
 bot.on("MESSAGE_CREATE", message => {
