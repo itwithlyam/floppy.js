@@ -34,4 +34,4 @@ bot.on("MESSAGE_CREATE", async message => {
 bot.start(token)
 ```
 
-## See the Docs at https://floppy.js.org
+_See the Docs at https://floppy.js.org_
