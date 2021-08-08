@@ -28,17 +28,21 @@ class Message {
       this.channel = null;
     }
   }
-  async reply(content) {
-    let mmmm = {
-      content: content,
-      message_reference: {
-        message_id: this.id,
-        guild_id: this.guild_id,
-        fail_if_not_exists: false,
-      },
-    };
-    const req = new Request(`/channels/${this.channel_id}/messages`, mmmm);
-    req.request("POST");
+  async createReply(content) {
+    return new Promise((resolve, reject) => {
+        let mmmm = {
+            content: content,
+            message_reference: {
+              message_id: this.id,
+              guild_id: this.guild_id,
+              fail_if_not_exists: false,
+            },
+          };
+          const req = new Request(`/channels/${this.channel_id}/messages`, mmmm);
+          const res = req.request("POST");
+          resolve(res)
+
+    })
   }
 }
 

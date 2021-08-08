@@ -13,10 +13,10 @@ bot.on("GUILD_CREATE", async guild => {
         console.log(await guild.getChannels())
     }
 })
-bot.on("MESSAGE_CREATE", message => {
+bot.on("MESSAGE_CREATE", async message => {
     if (message.author.bot) return
     console.log("New message:", message.content)
-    message.reply("testing")
+    await message.createReply("testing")
 })
 
 bot.start(token)
