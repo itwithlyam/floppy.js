@@ -22,10 +22,8 @@ class Channel {
         this.last_pin_timestamp = data.last_pin_timestamp
         this.rtc_region = data.rtc_region
         this.video_quality_mode = data.video_quality_mode
-        this.message_count = data.message_count
         this.thread_metadata = data.thread_metadata
         this.member = data.member
-        this.default_auto_archive_duration = data.default_auto_archive_duration
         this.permissions = data.permissions
     }
     async sync() {}

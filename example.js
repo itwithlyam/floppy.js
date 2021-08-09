@@ -11,9 +11,6 @@ bot.on("READY", async () => {
 })
 bot.on("GUILD_CREATE", async guild => {
     console.log("Logged onto guild:", guild.name)
-    if (guild.name === "bot") {
-        console.log(await guild.getChannels())
-    }
 })
 bot.on("MESSAGE_CREATE", async message => {
     if (message.author.bot) return

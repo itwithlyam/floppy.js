@@ -2,6 +2,7 @@
 
 const {Channel} = require("./Channel")
 const {Request} = require("../util/request")
+const {Thread} = require("./Thread")
 
 class Guild {
     constructor(data) {
@@ -58,6 +59,11 @@ class Guild {
         this.nsfw_level = data.nsfw_level
         this.stage_instances = data.stage_instances
         this.stickers = data.stickers
+        this.threads = []
+        data.threads.forEach(element => {
+            this.threads.push(new Thread(element))
+        })
+        console.log(this)
     }
     async modify(data, reason) {
         let gid = this.id

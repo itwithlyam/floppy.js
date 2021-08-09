@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.3.4",
     "fetch": "^1.1.0",
+    "mocha": "^9.0.3",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
     "ws": "^8.0.0"

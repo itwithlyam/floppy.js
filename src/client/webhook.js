@@ -1,3 +1,5 @@
+'use strict';
+
 const {Request} = require("../util/request")
 
 class WebhookManager {

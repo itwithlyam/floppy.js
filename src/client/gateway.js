@@ -1,6 +1,7 @@
 "use strict";
 
 const { EventEmitter } = require("events");
+const {Thread} = require("../structures/Thread")
 const fs = require("fs");
 const ws = require("ws");
 const system = require("os");
@@ -93,7 +94,6 @@ class Client extends EventEmitter {
               this.guilds = []
               this.application = data.application
               this.user.name = `${this.user.username}#${this.user.discriminator}`
-              console.log(this)
               break;
             case "GUILD_CREATE":
               this.emit("GUILD_CREATE", new Guild(data));
@@ -101,6 +101,9 @@ class Client extends EventEmitter {
               break;
             case "MESSAGE_CREATE":
               this.emit("MESSAGE_CREATE", new Message(data));
+              break;
+            case "THREAD_CREATE":
+              this.emit("THREAD_CREATE", new Thread(data))
               break;
           }
           break;
