@@ -16,8 +16,12 @@ bot.on("MESSAGE_CREATE", async message => {
     await message.createReply("ohhh")
 })
 bot.on("THREAD_CREATE", async thread => {
-    if (!thread.name === "testing-threads") return
-    await thread.createMessage("testing")
+    if (thread.name === "testing-threads") {
+        await thread.createMessage("testing")
+    }
+    if (thread.name === ".") {
+        console.log(await thread.deleteThread())
+    }
 })
 
 bot.start(token)

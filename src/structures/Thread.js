@@ -23,6 +23,12 @@ class Thread {
             resolve(req.request('POST'))
         })
     }
+    async deleteThread(reason) {
+        return new Promise((resolve, reject) => {
+            const req = new Request(`channels/${this.id}`, {}, false)
+            resolve(req.request('DELETE', reason))
+        })
+    }
 }
 
 module.exports={Thread}
