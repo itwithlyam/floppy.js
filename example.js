@@ -1,5 +1,7 @@
 const Floppy = require("./index.js")
 const { token } = require("./token.json")
+const webhook = new Floppy.WebhookManager("874244061538680853", "vQkaxegXmBVuJd0nfywvW5J8a6pUrLfQYDoc9l9g9eSu9mw-8BnEM-JCIpGkYWjcmhst")
+console.log(webhook.createMessage("hi"))
 
 const bot = new Floppy.Bot()
 bot.on("READY", async () => {

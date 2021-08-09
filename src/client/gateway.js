@@ -27,6 +27,7 @@ const recieve = new ws.Server({ port: 8080 });
 class Client extends EventEmitter {
   constructor(token = null, intents = 513) {
     super();
+    this.connected = false
     if (token) process.env.TOKEN = token;
     this.intents = intents;
   }
@@ -84,6 +85,7 @@ class Client extends EventEmitter {
               data.guilds = undefined
               this.emit("READY", data);
               connected = true;
+              this.connected = true
               this.v = data.v
               this.user = data.user
               this.session_id = data.session_id
@@ -91,6 +93,7 @@ class Client extends EventEmitter {
               this.guilds = []
               this.application = data.application
               this.user.name = `${this.user.username}#${this.user.discriminator}`
+              console.log(this)
               break;
             case "GUILD_CREATE":
               this.emit("GUILD_CREATE", new Guild(data));
