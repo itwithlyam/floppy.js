@@ -63,7 +63,6 @@ class Guild {
         data.threads.forEach(element => {
             this.threads.push(new Thread(element))
         })
-        console.log(this)
     }
     async modify(data, reason) {
         let gid = this.id

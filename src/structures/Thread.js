@@ -1,5 +1,7 @@
 'use strict';
 
+const {Request} = require("../util/request")
+
 class Thread {
     constructor(data) {
         this.id = data.id
@@ -14,7 +16,12 @@ class Thread {
         this.message_count = data.message_count
         this.member_count = data.member_count
         this.thread_metadata = data.thread_metadata
-        console.log(this)
+    }
+    async createMessage(content) {
+        return new Promise((resolve, reject) => {
+            const req = new Request(`channels/${this.id}/messages`, {content: content}, true)
+            resolve(req.request('POST'))
+        })
     }
 }
 

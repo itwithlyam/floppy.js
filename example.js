@@ -1,12 +1,10 @@
 const Floppy = require("./index.js")
 const { token } = require("./token.json")
-const webhook = new Floppy.WebhookManager("874244061538680853", "vQkaxegXmBVuJd0nfywvW5J8a6pUrLfQYDoc9l9g9eSu9mw-8BnEM-JCIpGkYWjcmhst")
-console.log(webhook.createMessage("hi"))
 
 const bot = new Floppy.Bot()
 bot.on("READY", async () => {
     console.log("Ready!")
-    await bot.createStatus(0, "Lyam make FloppyJS", "online")
+    await bot.createStatus(1, "Lyam make FloppyJS", "online")
     console.log("Status set!")
 })
 bot.on("GUILD_CREATE", async guild => {
@@ -15,7 +13,11 @@ bot.on("GUILD_CREATE", async guild => {
 bot.on("MESSAGE_CREATE", async message => {
     if (message.author.bot) return
     console.log("New message:", message.content)
-    await message.createReply("testing")
+    await message.createReply("ohhh")
+})
+bot.on("THREAD_CREATE", async thread => {
+    if (!thread.name === "testing-threads") return
+    await thread.createMessage("testing")
 })
 
 bot.start(token)

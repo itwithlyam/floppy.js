@@ -9,6 +9,7 @@ const {Guild} = require("../structures/Guild")
 const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
 const fetch = require("node-fetch")
+const allThreads = []
 const presence = require("./actions/presenceUpdate")
 const {
   TokenError,
@@ -92,18 +93,28 @@ class Client extends EventEmitter {
               this.session_id = data.session_id
               this.shard = data.shard
               this.guilds = []
+              this.guild_count
               this.application = data.application
               this.user.name = `${this.user.username}#${this.user.discriminator}`
               break;
             case "GUILD_CREATE":
               this.emit("GUILD_CREATE", new Guild(data));
               this.guilds.push(new Guild(data))
+              this.guild_count += 1
               break;
             case "MESSAGE_CREATE":
               this.emit("MESSAGE_CREATE", new Message(data));
               break;
             case "THREAD_CREATE":
+              if (allThreads.includes(data.id)) return
+              allThreads.push(data.id)
               this.emit("THREAD_CREATE", new Thread(data))
+              console.log("created thread")
+              break;
+            case "THREAD_DELETE":
+              const pos = allThreads.indexOf(data.id);
+              delete allThreads[pos]
+              this.emit("THREAD_DELETE", new Thread(data))
               break;
           }
           break;
