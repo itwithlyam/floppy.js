@@ -8,6 +8,7 @@ const system = require("os");
 const {Guild} = require("../structures/Guild")
 const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
+const {SlashCommand} = require("../structures/SlashCommand")
 const fetch = require("node-fetch")
 const allThreads = []
 const presence = require("./actions/presenceUpdate")
@@ -27,11 +28,15 @@ let connected = false;
 const recieve = new ws.Server({ port: 8080 });
 
 class Client extends EventEmitter {
-  constructor(token = null, intents = 513) {
+  constructor(data={}) {
     super();
+    if (!data.intents) data.intents=513
+    if (!data.token) data.token="."
+    if (!data.appid) data.appid = "0"
     this.connected = false
-    if (token) process.env.TOKEN = token;
-    this.intents = intents;
+    process.env.TOKEN = data.token;
+    process.env.APPID = data.appid
+    this.intents = data.intents;
   }
   async start(token = null) {
     connected = false;
@@ -115,6 +120,9 @@ class Client extends EventEmitter {
               const pos = allThreads.indexOf(data.id);
               delete allThreads[pos]
               this.emit("THREAD_DELETE", new Thread(data))
+              break;
+            case "APPLICATION_COMMAND_CREATE":
+              this.emit("APPLICATION_COMMAND_CREATE", new SlashCommand(data))
               break;
           }
           break;
