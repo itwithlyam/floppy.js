@@ -41,6 +41,20 @@ class SlashCommandManager {
             resolve(ress)
         })
     }
+    async deleteCommand(id) {
+        const headers = {
+            "Authorization": `Bot ${process.env.TOKEN}`,
+            "Content-Type": "application/json"
+        }
+        return new Promise(async (resolve, reject) => {
+            const req = await fetch(url + `/${id}`, {
+                headers: headers,
+                method: "DELETE"
+            })
+            if (!req.ok) reject("Response was not OK: " + req.status)
+            resolve()
+        })
+    }
 }
 
 module.exports = {SlashCommandManager}

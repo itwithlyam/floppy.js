@@ -1,3 +1,5 @@
+'use strict';
+
 class SlashCommand {
     constructor(data) {
         this.id = data.id
