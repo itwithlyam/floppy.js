@@ -6,6 +6,7 @@ const fs = require("fs");
 const ws = require("ws");
 const system = require("os");
 const {Guild} = require("../structures/Guild")
+const {Interaction} = require("../structures/Interaction")
 const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
 const {SlashCommand} = require("../structures/SlashCommand")
@@ -124,6 +125,10 @@ class Client extends EventEmitter {
             case "APPLICATION_COMMAND_CREATE":
               this.emit("APPLICATION_COMMAND_CREATE", new SlashCommand(data))
               break;
+            case "INTERACTION_CREATE":
+              this.emit("INTERACTION_CREATE", new Interaction(data))
+              break;
+            
           }
           break;
       }
