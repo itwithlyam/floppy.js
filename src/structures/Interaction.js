@@ -13,6 +13,7 @@ class Interaction {
         this.token = data.token
         this.version = data.version
         this.message = new Message(data.message)
+        console.log(this)
     }
 }
 
