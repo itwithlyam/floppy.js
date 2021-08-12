@@ -9,7 +9,7 @@ const {Guild} = require("../structures/Guild")
 const {Interaction} = require("../structures/Interaction")
 const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
-const {SlashCommand} = require("../structures/SlashCommand")
+const {SlashCommand} = require("../structures/ApplicationCommands/SlashCommand")
 const fetch = require("node-fetch")
 const allThreads = []
 const presence = require("./actions/presenceUpdate")
