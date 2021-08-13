@@ -1,12 +1,14 @@
 'use strict';
 
 const {Request} = require("../util/request")
+const {EventEmitter} = require("events")
 const fetch = require("node-fetch")
 const {SlashCommand} = require("../structures/ApplicationCommands/SlashCommand")
 
-const url = `https://discord.com/api/v8/applications/${process.env.APPID}/commands`
-
 class InteractionManager {
+    async init() {
+        this.url = `https://discord.com/api/v8/applications/${process.env.APPID}/commands`
+    }
     async createCommand(json) {
         const headers = {
             "Authorization": `Bot ${process.env.TOKEN}`,
@@ -14,7 +16,7 @@ class InteractionManager {
         }
         console.log(process.env.APPID)
         return new Promise(async (resolve, reject) => {
-            const req = await fetch(url, {
+            const req = await fetch(this.url, {
                 headers: headers,
                 body: JSON.stringify(json),
                 method: "POST"
@@ -30,7 +32,7 @@ class InteractionManager {
             "Content-Type": "application/json"
         }
         return new Promise(async (resolve, reject) => {
-            const req = await fetch(url, {
+            const req = await fetch(this.url, {
                 headers: headers,
                 method: "GET"
             })
@@ -47,7 +49,7 @@ class InteractionManager {
             "Content-Type": "application/json"
         }
         return new Promise(async (resolve, reject) => {
-            const req = await fetch(url + `/${id}`, {
+            const req = await fetch(this.url + `/${id}`, {
                 headers: headers,
                 method: "DELETE"
             })

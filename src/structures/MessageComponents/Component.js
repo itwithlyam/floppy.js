@@ -1,8 +1,7 @@
 const {EventEmitter} = require("event")
 
-class Component extends EventEmitter {
+class Component {
     constructor(data) {
-        super()
         this.type = data.type
         this.name = data.name
     }

@@ -4,12 +4,13 @@ const Floppy = require("./index.js")
 const { token } = require("./token.json")
 
 const bot = new Floppy.Bot({appid: "789134602576461855"})
+const interactions = new Floppy.InteractionManager()
 
 bot.on("READY", async () => {
+    await interactions.init()
     console.log("Ready!")
     await bot.createStatus(1, "Lyam make FloppyJS", "online")
     console.log("Status set!")
-    const slash = new Floppy.InteractionManager()
 })
 bot.on("GUILD_CREATE", async guild => {
     console.log("Logged onto guild:", guild.name)
