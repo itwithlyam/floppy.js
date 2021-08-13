@@ -242,7 +242,7 @@ class Client extends EventEmitter {
           throw new ConnectionError(
             `The Gateway zombied the connection. (${code})`
           );
-        case 4000:
+        case 4000: 
           throw new ConnectionError(
             `The Gateway threw an unknown close code. (${code}: ${reason})`
           );
