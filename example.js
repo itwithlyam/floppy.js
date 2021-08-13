@@ -9,8 +9,7 @@ bot.on("READY", async () => {
     console.log("Ready!")
     await bot.createStatus(1, "Lyam make FloppyJS", "online")
     console.log("Status set!")
-    const slash = new Floppy.SlashCommandManager()
-    console.log(await slash.getCommands())
+    const slash = new Floppy.InteractionManager()
 })
 bot.on("GUILD_CREATE", async guild => {
     console.log("Logged onto guild:", guild.name)
