@@ -3,7 +3,7 @@ process.env.APPID = "789134602576461855"
 const Floppy = require("./index.js")
 const { token } = require("./token.json")
 
-const bot = new Floppy.Bot({appid: "789134602576461855"})
+const bot = new Floppy.Bot({appid: "789134602576461855"}, true)
 const interactions = new Floppy.InteractionManager()
 
 bot.on("READY", async () => {
@@ -30,6 +30,11 @@ bot.on("THREAD_CREATE", async thread => {
 })
 bot.on("APPLICATION_COMMAND_CREATE", async command => {
     console.log(command)
+})
+bot.on("INTERACTION_CREATE", async interaction => {
+    console.log(interaction.createResponse({
+        type: 5
+    }))
 })
 
 bot.start(token)

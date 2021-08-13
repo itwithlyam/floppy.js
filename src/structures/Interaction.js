@@ -1,4 +1,5 @@
 const {Message} = require("./Message")
+const {Request} = require("../util/request")
 
 class Interaction {
     constructor(data) {
@@ -13,6 +14,13 @@ class Interaction {
         this.token = data.token
         this.version = data.version
         this.message = new Message(data.message)
+    }
+    async createResponse(data) {
+        return new Promise(async (resolve, reject) => {
+            const req = new Request(`/interactions/${this.id}/${this.token}/callback`, data, true)
+            const res = await req.request('POST')
+            console.log(await res)
+        })
     }
 }
 

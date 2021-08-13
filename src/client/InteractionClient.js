@@ -7,7 +7,10 @@ const {SlashCommand} = require("../structures/ApplicationCommands/SlashCommand")
 
 class InteractionManager {
     async init() {
-        this.url = `https://discord.com/api/v8/applications/${process.env.APPID}/commands`
+        return new Promise(async (resolve, reject) => {
+            this.url = `https://discord.com/api/v9/applications/${process.env.APPID}/commands`
+            resolve()
+        })
     }
     async createCommand(json) {
         const headers = {
