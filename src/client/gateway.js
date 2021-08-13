@@ -238,6 +238,10 @@ class Client extends EventEmitter {
       this.emit("close", code, reason);
       console.error("GATEWAY CLOSURE %s", `${code}: ${reason}`);
       switch (code) {
+        case 1000:
+          throw new ConnectionError(
+            `The Gateway zombied the connection. (${code})`
+          );
         case 4000:
           throw new ConnectionError(
             `The Gateway threw an unknown close code. (${code}: ${reason})`
