@@ -2,11 +2,11 @@
 
 const {Request} = require("../util/request")
 const fetch = require("node-fetch")
-const {SlashCommand} = require("../structures/SlashCommand")
+const {SlashCommand} = require("../structures/ApplicationCommands/SlashCommand")
 
 const url = `https://discord.com/api/v8/applications/${process.env.APPID}/commands`
 
-class SlashCommandManager {
+class InteractionManager {
     async createCommand(json) {
         const headers = {
             "Authorization": `Bot ${process.env.TOKEN}`,
@@ -57,4 +57,4 @@ class SlashCommandManager {
     }
 }
 
-module.exports = {SlashCommandManager}
+module.exports = {InteractionManager}
