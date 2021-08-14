@@ -104,6 +104,8 @@ class Client extends EventEmitter {
     super();
     if (!logging) {
       console.reset()
+    } else {
+      console.warning("Running on Debug mode")
     }
     if (!data.intents) data.intents = 513;
     if (!data.token) data.token = ".";
