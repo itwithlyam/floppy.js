@@ -22,7 +22,7 @@ class Interaction {
             console.log(await res)
         })
     }
-    async followupMessage(data) {
+    async createFollowupMessage(data) {
         return new Promise(async (resolve, reject) => {
             const req = new Request(`/webhooks/${this.id}/${this.token}`, data, true)
             const res = await req.request('POST')
