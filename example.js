@@ -11,7 +11,7 @@ const interactions = new Floppy.InteractionManager()
 bot.on("READY", async () => {
     describe('Interactions init', function() {
         describe('#init()', function() {
-            it('should be successful', function() {
+            it('should be successful', async function() {
                 await interactions.init()
             });
         });
@@ -19,12 +19,12 @@ bot.on("READY", async () => {
     console.log("Ready!")
     describe('Status', function() {
         describe('#createStatus()', function() {
-            it('should create a status', function() {
+            it('should create a status', async function() {
                 await bot.createStatus(1, "Lyam make FloppyJS", "online")
             });
         });
         describe('#createStatus()', function() {
-            it('should create a status', function() {
+            it('should create a status', async function() {
                 await bot.createStatus(1, "Lyam make tests", "idle")
             });
         });
@@ -37,7 +37,7 @@ bot.on("GUILD_CREATE", async guild => {
 bot.on("MESSAGE_CREATE", async message => {
     if (message.author.bot) return
     console.log("New message:", message.content)
-    describe('Messages', function() {
+    describe('Messages', async function() {
         describe('#createReply()', function() {
             it('should reply to the message', function() {
                 await message.createReply("ohhh")
