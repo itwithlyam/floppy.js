@@ -39,7 +39,7 @@ bot.on("MESSAGE_CREATE", async message => {
     console.log("New message:", message.content)
     describe('Messages', async function() {
         describe('#createReply()', function() {
-            it('should reply to the message', function() {
+            it('should reply to the message', async function() {
                 await message.createReply("ohhh")
             })
         })
