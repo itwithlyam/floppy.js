@@ -340,7 +340,7 @@ class Client extends EventEmitter {
       } catch (e) {
         reject(e);
       }
-      resolve();
+      resolve(true);
     });
   }
 }

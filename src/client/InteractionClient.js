@@ -9,7 +9,7 @@ class InteractionManager {
     async init() {
         return new Promise(async (resolve, reject) => {
             this.url = `https://discord.com/api/v9/applications/${process.env.APPID}/commands`
-            resolve()
+            resolve(true)
         })
     }
     async createCommand(json) {

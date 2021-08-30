@@ -29,6 +29,54 @@ class Interaction {
             console.log(await res)
         })
     }
+    async getResponse() {
+        return new Promise(async (resolve, reject) => {
+            const req = new Request(`/webhooks/${this.id}/${this.token}/messages/@original`, j=true)
+            const res = await req.get()
+            console.log(await res)
+            resolve(await res)
+        })
+    }
+    async editResponse(data) {
+        return new Promise(async (resolve, reject) => {
+            const req = new Request(`/webhooks/${this.id}/${this.token}/messages/@original`, data, j=true)
+            const res = await req.request('PATCH')
+            console.log(await res)
+            resolve(await res)
+        })
+    }
+    async deleteResponse() {
+        return new Promise(async (resolve, reject) => {
+            const req = new Request(`/webhooks/${this.id}/${this.token}/messages/@original`, j=false)
+            await req.request('DELETE')
+            console.log("it worked, deleted response")
+            resolve(true)
+        })
+    }
+    async getFollowupMessage() {
+        return new Promise(async (resolve, reject) => {
+            const req = new Request(`/webhooks/${this.id}/${this.token}/messages`, j=true)
+            const res = await req.get()
+            console.log(await res)
+            resolve(await res)
+        })
+    }
+    async editFollowupMessage(data) {
+        return new Promise(async (resolve, reject) => {
+            const req = new Request(`/webhooks/${this.id}/${this.token}/messages`, data, j=true)
+            const res = await req.request('PATCH')
+            console.log(await res)
+            resolve(await res)
+        })
+    }
+    async deleteFollowupMessage() {
+        return new Promise(async (resolve, reject) => {
+            const req = new Request(`/webhooks/${this.id}/${this.token}/messages`, j=false)
+            await req.request('DELETE')
+            console.log("it worked, deleted followup")
+            resolve(true)
+        })
+    }
 }
 
 module.exports = {Interaction}
