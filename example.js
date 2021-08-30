@@ -12,21 +12,20 @@ bot.on("READY", async () => {
     describe('Interactions init', function() {
         describe('#init()', function() {
             it('should be successful', function() {
-                assert.equal(await interactions.init(), true);
+                await interactions.init()
             });
         });
     });
-    await interactions.init()
     console.log("Ready!")
     describe('Status', function() {
         describe('#createStatus()', function() {
             it('should create a status', function() {
-                assert.equal(await bot.createStatus(1, "Lyam make FloppyJS", "online"), true);
+                await bot.createStatus(1, "Lyam make FloppyJS", "online")
             });
         });
         describe('#createStatus()', function() {
             it('should create a status', function() {
-                assert.equal(await bot.createStatus(1, "Lyam make tests", "idle"), true);
+                await bot.createStatus(1, "Lyam make tests", "idle")
             });
         });
     });
