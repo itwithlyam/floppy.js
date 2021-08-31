@@ -6,10 +6,11 @@ class Request {
     /*
     * @param {string} url - The URL to request 
     */
-    constructor(url, body=null, j=true, headers={
+    constructor(url, body=null, j, headers={
         "Content-Type": "application/json",
         "Authorization": "Bot " + process.env.TOKEN
     }) {
+        if (!j) j = false
         this.url = url
         this.body = JSON.stringify(body)
         this.headers = headers
@@ -49,16 +50,26 @@ class Request {
             body: this.body,
             headers: this.headers
         })
-        if (this.json) {
-            return await request.json()
+        let response = {
+            code: await request.status,
+            text: await request.statusText,
         }
+        if (this.json) {
+            response.data = await request.json()
+        }
+        return response
     }
     async get() {
         let request = await fetch(`https://discord.com/api/v9${this.url}`, {
             method: "GET",
             headers: this.headers
         })
-        return await request.json()
+        let response = {
+            code: await request.status,
+            text: await request.statusText,
+        }
+        response.data = await request.json()
+        return response
     }
 }
 

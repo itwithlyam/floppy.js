@@ -112,3 +112,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Tests
+suite.test.js

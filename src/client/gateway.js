@@ -32,16 +32,11 @@ const {Logging} = require("../util/logging")
 
 const l = new Logging("./log.log");
 
-const o_log = console.log;
 const o_warn = console.warn;
 const o_err = console.error;
 const o_debug = console.debug;
 const o_info = console.info;
-
-console.log = function () {
-  const args = Array.prototype.slice.call(arguments);
-  l.log(...args);
-}
+const o_log = console.log;
 
 console.trace = function () {
   const args = Array.prototype.slice.call(arguments)
@@ -84,7 +79,6 @@ console.error = function () {
 }
 
 console.reset = function () {
-  console.log = o_log;
   console.debug = function() {return};
   console.warn = function() {return};
   console.error = function() {return};
@@ -165,7 +159,7 @@ class Client extends EventEmitter {
             console.debug("Heartbeat: " + JSON.stringify(m));
             socket.send(JSON.stringify(m));
           }, interval);
-        }, interval * Math.random());
+        }, 3000);
       }
       if (opcode === 10) return;
       switch (opcode) {
@@ -203,34 +197,34 @@ class Client extends EventEmitter {
               break;
             case "GUILD_CREATE":
               this.emit("GUILD_CREATE", new Guild(data));
-              console.log("GUILD_CREATE %s", data.name);
+              console.info("GUILD_CREATE %s", data.name);
               this.guilds.push(new Guild(data));
               this.guild_count += 1;
               break;
             case "MESSAGE_CREATE":
               this.emit("MESSAGE_CREATE", new Message(data));
-              console.log("MESSAGE_CREATE %s", data.id);
+              console.info("MESSAGE_CREATE %s", data.id);
               break;
             case "THREAD_CREATE":
               if (allThreads.includes(data.id)) return;
               allThreads.push(data.id);
               this.emit("THREAD_CREATE", new Thread(data));
-              console.log("THREAD_CREATE %s", data.name);
-              console.log("created thread");
+              console.info("THREAD_CREATE %s", data.name);
+              console.info("created thread");
               break;
             case "THREAD_DELETE":
               const pos = allThreads.indexOf(data.id);
               delete allThreads[pos];
               this.emit("THREAD_DELETE", new Thread(data));
-              console.log("THREAD_DELETE %s", data.name);
+              console.info("THREAD_DELETE %s", data.name);
               break;
             case "APPLICATION_COMMAND_CREATE":
               this.emit("APPLICATION_COMMAND_CREATE", new SlashCommand(data));
-              console.log("APPLICATION_COMMAND_CREATE %s", data.name);
+              console.info("APPLICATION_COMMAND_CREATE %s", data.name);
               break;
             case "INTERACTION_CREATE":
               this.emit("INTERACTION_CREATE", new Interaction(data));
-              console.log("INTERACTION_CREATE");
+              console.info("INTERACTION_CREATE");
               break;
           }
           break;
