@@ -1,4 +1,5 @@
 'use strict';
+
 const {Command} = require("./Command")
 
 class SlashCommand extends Command {

@@ -1,3 +1,5 @@
+'use strict';
+
 class Component {
     constructor(data) {
         switch (data.type) {

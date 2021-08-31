@@ -1,3 +1,5 @@
+'use strict';
+
 const Logger = require("discord-blackhole.logger");
 const mkdirp = require("mkdirp-sync");
 const fs = require("fs");
