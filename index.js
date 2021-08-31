@@ -7,6 +7,8 @@ const WebhookManager = require("./src/client/webhook").WebhookManager
 const WebhookClient = require("./src/client/webhook").WebhookManager
 const InteractionManager = require("./src/client/InteractionClient").InteractionManager
 const InteractionClient = require("./src/client/InteractionClient").InteractionManager
+const SlashCommand = require("./src/structures/ApplicationCommands/SlashCommand").SlashCommand
+const Component = require("./src/structures/MessageComponents/Component").Component
 
 module.exports = {
     Bot,
@@ -15,5 +17,7 @@ module.exports = {
     WebhookManager,
     WebhookClient,
     InteractionManager,
-    InteractionClient
+    InteractionClient,
+    SlashCommand,
+    Component
 }

@@ -6,3 +6,5 @@ class SelectMenu extends Component {
         
     }
 }
+
+module.exports = {Button}

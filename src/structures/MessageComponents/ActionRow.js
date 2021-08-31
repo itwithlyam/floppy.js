@@ -6,3 +6,5 @@ class ActionRow extends Component {
         
     }
 }
+
+module.exports = {ActionRow}

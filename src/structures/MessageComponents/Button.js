@@ -6,3 +6,5 @@ class Button extends Component {
         
     }
 }
+
+module.exports = {Button}
