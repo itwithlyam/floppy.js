@@ -59,6 +59,21 @@ class InteractionManager {
             resolve(true)
         })
     }
+    async editCommand(id, data) {
+        const headers = {
+            "Authorization": `Bot ${process.env.TOKEN}`,
+            "Content-Type": "application/json"
+        }
+        return new Promise(async (resolve, reject) => {
+            const req = await fetch(this.url + `/${id}`, {
+                headers: headers,
+                body: data,
+                method: "PATCH"
+            })
+            if (!req.ok) reject("Response was not OK: " + req.status)
+            resolve(true)
+        })
+    }
 }
 
 module.exports = {InteractionManager}
