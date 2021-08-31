@@ -1,14 +1,10 @@
 'use strict';
+const {Command} = require("./Command")
 
-class SlashCommand {
+class SlashCommand extends Command {
     constructor(data) {
-        this.id = data.id
-        this.application_id = data.application_id
-        this.guild_id = data.guild_id
-        this.name = data.name
-        this.description = data.description
-        this.options = data.options
-        this.default_permission = data.default_permission
+        super(data)
+        this.type = 1
     }
 }
 

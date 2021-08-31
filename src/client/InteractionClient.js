@@ -17,7 +17,6 @@ class InteractionManager {
             "Authorization": `Bot ${process.env.TOKEN}`,
             "Content-Type": "application/json"
         }
-        console.log(process.env.APPID)
         return new Promise(async (resolve, reject) => {
             const req = await fetch(this.url, {
                 headers: headers,
@@ -57,7 +56,7 @@ class InteractionManager {
                 method: "DELETE"
             })
             if (!req.ok) reject("Response was not OK: " + req.status)
-            resolve()
+            resolve(true)
         })
     }
 }
