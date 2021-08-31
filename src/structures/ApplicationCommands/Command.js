@@ -1,8 +1,9 @@
 'use strict';
 
-class SlashCommand {
+class Command {
     constructor(data) {
         this.id = data.id
+        this.type = data.type
         this.application_id = data.application_id
         this.guild_id = data.guild_id
         this.name = data.name
@@ -11,6 +12,4 @@ class SlashCommand {
         this.default_permission = data.default_permission
     }
 }
-
-
-module.exports = {SlashCommand}
+module.exports = {Command}

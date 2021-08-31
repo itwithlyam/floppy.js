@@ -1,18 +1,20 @@
 "use strict";
 
 const { EventEmitter } = require("events");
-const {Thread} = require("../structures/Thread")
+const { Thread } = require("../structures/Thread");
 const fs = require("fs");
 const ws = require("ws");
 const system = require("os");
-const {Guild} = require("../structures/Guild")
-const {Interaction} = require("../structures/Interaction")
+const { Guild } = require("../structures/Guild");
+const { Interaction } = require("../structures/Interaction");
 const GATEWAY = "wss://gateway.discord.gg/?v=9&encoding=json";
 let online = false;
-const {SlashCommand} = require("../structures/SlashCommand")
-const fetch = require("node-fetch")
-const allThreads = []
-const presence = require("./actions/presenceUpdate")
+const {
+  SlashCommand,
+} = require("../structures/ApplicationCommands/SlashCommand");
+const fetch = require("node-fetch");
+const allThreads = [];
+const presence = require("./actions/presenceUpdate");
 const {
   TokenError,
   IntentsError,
@@ -23,23 +25,93 @@ const {
   ResumeError,
   ShardError,
 } = require("../util/errors");
-const { Message } = require("../structures/Message")
+const { Message } = require("../structures/Message");
 let connected = false;
+const {Logging} = require("../util/logging")
+
+
+const l = new Logging("./log.log");
+
+const o_warn = console.warn;
+const o_err = console.error;
+const o_debug = console.debug;
+const o_info = console.info;
+const o_log = console.log;
+
+console.trace = function () {
+  const args = Array.prototype.slice.call(arguments)
+  l.trace(...args)
+}
+
+console.debug = function () {
+  const args = Array.prototype.slice.call(arguments);
+  l.debug(...args);
+}
+
+console.info = function () {
+  const args = Array.prototype.slice.call(arguments);
+  l.info(...args);
+}
+
+console.alert = function () {
+  const args = Array.prototype.slice.call(arguments);
+  l.alert(...args);
+}
+
+console.success = function () {
+  const args = Array.prototype.slice.call(arguments);
+  l.success(...args);
+}
+
+console.warning = function () {
+  const args = Array.prototype.slice.call(arguments);
+  l.warning(...args);
+}
+
+console.warn = function () {
+  const args = Array.prototype.slice.call(arguments);
+  l.warn(...args);
+}
+
+console.error = function () {
+  const args = Array.prototype.slice.call(arguments);
+  l.error(...args);
+}
+
+console.reset = function () {
+  console.debug = function() {return};
+  console.warn = function() {return};
+  console.error = function() {return};
+  console.info = function() {return};
+  console.trace = function() {return};
+  console.warning = function() {return};
+  console.success = function() {return};
+  console.alert = function() {return};
+}
+
+
 
 const recieve = new ws.Server({ port: 8080 });
 
 class Client extends EventEmitter {
-  constructor(data={}) {
+  constructor(data = {}, logging=false) {
     super();
-    if (!data.intents) data.intents=513
-    if (!data.token) data.token="."
-    if (!data.appid) data.appid = "0"
-    this.connected = false
+    if (!logging) {
+      console.reset()
+    } else {
+      console.warning("Running on Debug mode")
+    }
+    if (!data.intents) data.intents = 513;
+    if (!data.token) data.token = ".";
+    if (!data.appid) data.appid = "0";
+    this.connected = false;
     process.env.TOKEN = data.token;
-    process.env.APPID = data.appid
+    process.env.APPID = data.appid;
     this.intents = data.intents;
+    console.trace("Client initialized");
   }
   async start(token = null) {
+    console.trace("Client startup procedure initiated");
     connected = false;
     if (token) {
       process.env.TOKEN = token;
@@ -61,28 +133,45 @@ class Client extends EventEmitter {
       d: null,
     };
     const socket = new ws(GATEWAY);
+    console.trace("Starting gateway procedure");
     socket.on("message", (message) => {
+      console.alert(message)
       message = JSON.parse(message);
+      if (message.s) {
+        this._seq = message.s
+        m.d = this._seq
+        console.warn("SEQUENCING: Set new SEQ num to " + this._seq)
+      }
       const data = message.d;
       const opcode = message.op;
       if (!online) {
         online = true;
         const interval = data.heartbeat_interval;
         setTimeout(() => {
+          console.debug("Initial Heartbeat");
           socket.send(JSON.stringify(m));
           socket.send(JSON.stringify(identify));
+          console.debug("Identification sent");
           setInterval(() => {
+            this._seq = m.d + 1
+            m.d = this._seq
+            console.warn("SEQUENCING: Set new SEQ num to " + this._seq)
+            console.debug("Heartbeat: " + JSON.stringify(m));
             socket.send(JSON.stringify(m));
           }, interval);
-        }, interval * Math.random());
+        }, 3000);
       }
-      if (opcode === 11 || opcode === 10) return;
+      if (opcode === 10) return;
       switch (opcode) {
+        case 11: 
+          console.debug("Heartbeat ACKed: " + JSON.stringify(message))
+          break;
         case 1:
+          console.debug("Intimittent Heartbeat: " + JSON.stringify(message));
           socket.send(JSON.stringify(m));
           break;
         case 10:
-        case 11:
+          console.error("Not recieved Hrtbt Return: " + JSON.stringify(message));
           throw new Error(
             "Why are you seeing this? I don't know, but you didn't return for some reason 🤷‍♂️"
           );
@@ -90,53 +179,66 @@ class Client extends EventEmitter {
         case 0:
           switch (message.t) {
             case "READY":
-              data.guilds = undefined
+              this._seq = message.s
+              data.guilds = undefined;
               this.emit("READY", data);
+              console.debug("READY: " + JSON.stringify(message));
               connected = true;
-              this.connected = true
-              this.v = data.v
-              this.user = data.user
-              this.session_id = data.session_id
-              this.shard = data.shard
-              this.guilds = []
-              this.guild_count
-              this.application = data.application
-              this.user.name = `${this.user.username}#${this.user.discriminator}`
+              this.connected = true;
+              this.v = data.v;
+              this.user = data.user;
+              this.session_id = data.session_id;
+              this.shard = data.shard;
+              this.guilds = [];
+              this.guild_count;
+              this.application = data.application;
+              this.user.name = `${this.user.username}#${this.user.discriminator}`;
+
               break;
             case "GUILD_CREATE":
               this.emit("GUILD_CREATE", new Guild(data));
-              this.guilds.push(new Guild(data))
-              this.guild_count += 1
+              console.info("GUILD_CREATE %s", data.name);
+              this.guilds.push(new Guild(data));
+              this.guild_count += 1;
               break;
             case "MESSAGE_CREATE":
               this.emit("MESSAGE_CREATE", new Message(data));
+              console.info("MESSAGE_CREATE %s", data.id);
               break;
             case "THREAD_CREATE":
-              if (allThreads.includes(data.id)) return
-              allThreads.push(data.id)
-              this.emit("THREAD_CREATE", new Thread(data))
-              console.log("created thread")
+              if (allThreads.includes(data.id)) return;
+              allThreads.push(data.id);
+              this.emit("THREAD_CREATE", new Thread(data));
+              console.info("THREAD_CREATE %s", data.name);
+              console.info("created thread");
               break;
             case "THREAD_DELETE":
               const pos = allThreads.indexOf(data.id);
-              delete allThreads[pos]
-              this.emit("THREAD_DELETE", new Thread(data))
+              delete allThreads[pos];
+              this.emit("THREAD_DELETE", new Thread(data));
+              console.info("THREAD_DELETE %s", data.name);
               break;
             case "APPLICATION_COMMAND_CREATE":
-              this.emit("APPLICATION_COMMAND_CREATE", new SlashCommand(data))
+              this.emit("APPLICATION_COMMAND_CREATE", new SlashCommand(data));
+              console.info("APPLICATION_COMMAND_CREATE %s", data.name);
               break;
             case "INTERACTION_CREATE":
-              this.emit("INTERACTION_CREATE", new Interaction(data))
+              this.emit("INTERACTION_CREATE", new Interaction(data));
+              console.info("INTERACTION_CREATE");
               break;
-            
           }
           break;
       }
     });
     socket.on("close", (code, reason) => {
       this.emit("close", code, reason);
+      console.error("GATEWAY CLOSURE %s", `${code}: ${reason}`);
       switch (code) {
-        case 4000:
+        case 1000:
+          throw new ConnectionError(
+            `The Gateway zombied the connection. (${code})`
+          );
+        case 4000: 
           throw new ConnectionError(
             `The Gateway threw an unknown close code. (${code}: ${reason})`
           );
@@ -214,10 +316,12 @@ class Client extends EventEmitter {
       }
     });
     recieve.on("connection", function (connection) {
+      console.trace("Gateway local-remote connected");
       connection.on("message", function (message) {
         if (connected === true) {
           socket.send(message.toString());
         } else {
+          console.error("Gateway local-remote error, not logged in");
           throw new PayloadError("You are not logged in.");
         }
       });
@@ -226,12 +330,12 @@ class Client extends EventEmitter {
   async createStatus(name, type, activities) {
     return new Promise((resolve, reject) => {
       try {
-      presence.update(name, type, activities)
-      } catch(e) {
-        reject(e)
+        presence.update(name, type, activities);
+      } catch (e) {
+        reject(e);
       }
-      resolve()
-    })
+      resolve(true);
+    });
   }
 }
 
