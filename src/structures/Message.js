@@ -30,18 +30,20 @@ class Message {
       this.channel = null;
     }
   }
-  async createReply(content) {
-    return new Promise((resolve, reject) => {
-        let mmmm = {
-            content: content,
-            message_reference: {
-              message_id: this.id,
-              guild_id: this.guild_id,
-              fail_if_not_exists: false,
-            },
-          };
-          const req = new Request(`/channels/${this.channel_id}/messages`, mmmm);
-          const res = req.request("POST");
+  async createReply(content, components = []) {
+    return new Promise(async (resolve, reject) => {
+      const body = {
+        components: components,
+        content: content,
+        message_reference: {
+            message_id: this.id,
+            guild_id: this.guild_id,
+            fail_if_not_exists: false,
+        },
+    }
+          const req = new Request(`/channels/${this.channel_id}/messages`, body, true);
+          const res = await req.request("POST");
+          console.log(res.data.errors.components['0'])
           resolve(res)
 
     })
