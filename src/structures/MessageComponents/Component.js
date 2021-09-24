@@ -27,8 +27,7 @@ class Component {
                 this.max_values = data.max_values
                 this.type = 3
                 break;
-        }     
-        console.log(this)   
+        }      
     }
 }
 
