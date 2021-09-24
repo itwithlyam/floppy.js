@@ -1,5 +1,7 @@
 'use strict';
 
+const {Request} = require("../util/request")
+
 class Channel {
     constructor(data) {
         this.id = data.id
@@ -26,7 +28,41 @@ class Channel {
         this.member = data.member
         this.permissions = data.permissions
     }
-    async sync() {}
+    async sync() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const req = new Request(`channels/${this.id}`, j=true)
+                const res = await req.get()
+                const data = await res.data
+                this.id = data.id
+                this.type = data.type
+                this.guild_id = data.guild_id
+                this.position = data.position
+                this.permission_overwrites = data.permission_overwrites
+                this.name = data.name
+                this.topic = data.topic
+                this.nsfw = data.nsfw
+                this.last_message_id = data.last_message_id
+                this.bitrate = data.bitrate
+                this.user_limit = data.bitrate
+                this.slowmode = data.rate_limit_per_user
+                this.recipients = data.recipients
+                this.icon = data.icon
+                this.owner_id = data.owner_id
+                this.application_id = data.application_id
+                this.parent_id = data.parent_id
+                this.last_pin_timestamp = data.last_pin_timestamp
+                this.rtc_region = data.rtc_region
+                this.video_quality_mode = data.video_quality_mode
+                this.thread_metadata = data.thread_metadata
+                this.member = data.member
+                this.permissions = data.permissions
+            } catch(err) {
+                reject(err)
+            }
+            resolve(this)
+        })
+    }
     async modify(data, reason) {}
     async close(reason) {}
     async getMessages(data) {}
