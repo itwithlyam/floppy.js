@@ -1,4 +1,4 @@
-process.env.APPID = "789134602576461855"
+process.env.APPID = "731503562525507646"
 
 const Floppy = require("./index.js")
 const { token } = require("./token.json")
@@ -8,14 +8,14 @@ const component = new Floppy.Component({
     components: [
         {
             type: 2,
-            label: "Click me!",
-            style: 1,
+            label: "Button!",
+            style: 2,
             custom_id: "click_one"
         }
     ]
 })
 
-const bot = new Floppy.Bot({appid: "789134602576461855"}, false)
+const bot = new Floppy.Bot({appid: "731503562525507646"}, false)
 const interactions = new Floppy.InteractionManager()
 
 bot.on("READY", async () => {
@@ -26,7 +26,6 @@ bot.on("READY", async () => {
 
     await bot.createStatus(1, "Lyam make FloppyJS", "online")
 
-    await bot.createStatus(1, "Lyam make tests", "idle")
     console.log("Status set!")
 })
 bot.on("GUILD_CREATE", async guild => {
@@ -35,7 +34,7 @@ bot.on("GUILD_CREATE", async guild => {
 bot.on("MESSAGE_CREATE", async message => {
     if (message.author.bot) return
     console.log("New message:", message.content)
-    await message.createReply("ohhh", [component])
+    if (message.content === "hi") await message.createReply("ohhh", [component])
 })
 bot.on("THREAD_CREATE", async thread => {
     if (thread.name === "testing-threads") {

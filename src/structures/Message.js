@@ -43,7 +43,6 @@ class Message {
     }
           const req = new Request(`/channels/${this.channel_id}/messages`, body, true);
           const res = await req.request("POST");
-          console.log(res.data.errors.components['0'])
           resolve(res)
 
     })
