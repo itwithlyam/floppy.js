@@ -1,3 +1,5 @@
+**Floppy.js is `deprecated` as of April 2022.**
+
 # floppy.js
 The Floppy.js Discord API Wrapper
 
